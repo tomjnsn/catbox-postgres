@@ -1,0 +1,38 @@
+{
+  "name": "catbox-postgres",
+  "version": "0.0.1",
+  "description": "Postgres adapter for catbox",
+  "main": "lib/index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "lab --reporter console --assert code"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulovieira/catbox-postgres.git"
+  },
+  "keywords": [
+    "cache",
+    "catbox",
+    "postgres",
+    "postgresql"
+  ],
+  "author": "Paulo Vieira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paulovieira/catbox-postgres/issues"
+  },
+  "homepage": "https://github.com/paulovieira/catbox-postgres#readme",
+  "dependencies": {
+    "hoek": "^4.0.0",
+    "pg": "^4.5.5"
+  },
+  "devDependencies": {
+    "catbox": "^7.1.1",
+    "code": "^3.0.0",
+    "lab": "^10.7.0"
+  }
+}
