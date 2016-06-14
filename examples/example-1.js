@@ -22,17 +22,17 @@ internals.startCache = function (callback) {
     var segment = "my-segment";  // name of the table
 
     var key = {
-        id: "my-id",
+        id: "my-id-10-6",
         segment: segment
     };
 
     var value = {
-        firstName: "pauloqqq",
+        firstName: "paulo''qqq",
         lastName: "vieiray",
         age: 33
     };
 
-    var ttl = 1000;
+    var ttl = 1500;
 
     var client = new Catbox.Client(CatboxPostgres, clientOptions);
 
@@ -58,7 +58,7 @@ internals.startCache = function (callback) {
             });
 
         }, 1000);
-
+/*
         setTimeout(function(){
 
             value.firstName = "ana";
@@ -84,8 +84,8 @@ internals.startCache = function (callback) {
                 console.log("value was dropped")
             });
 
-        }, 3600);
-
+        }, 99993600);
+*/
         setInterval(function(){
 
             client.get(key, function(err, result){
@@ -100,7 +100,7 @@ internals.startCache = function (callback) {
             });
 
 
-        }, 240);
+        }, 245);
 
 
         internals.policy = new Catbox.Policy(policyOptions, client, segment);
