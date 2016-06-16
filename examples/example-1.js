@@ -1,138 +1,75 @@
 var Fs = require("fs");
 var Catbox = require("catbox");
 var CatboxPostgres = require("../lib");
-//var CatboxPostgres = require("catbox-memory");
 
-var internals = {};
+var credentials = JSON.parse(Fs.readFileSync(__dirname + "/credentials.json", "utf8"));
 
-internals.startCache = function (callback) {
-
-    var credentials = JSON.parse(Fs.readFileSync(__dirname + "/credentials.json", "utf8"));
+var startCache = function (partition, segment) {
 
     var clientOptions = {
-        partition: 'catbox',  // name of the database (should be already available)
+        partition: partition,  // name of the database (should be already available)
         user: credentials.user,
-        password: credentials.password
+        password: credentials.password,
+
+        //verbose: false
+        dataType: 'json',
+        unlogged: true
     };
 
     var policyOptions = {
         expiresIn: 5000,
     };
 
-    var segment = "my-segment";  // name of the table
-
-    var key = {
-        id: "my-id-10-6",
-        segment: segment
-    };
-
-    var value = {
-        firstName: "paulo''qqq",
-        lastName: "vieiray",
-        age: 33
-    };
-
-    var ttl = 1500;
-
     var client = new Catbox.Client(CatboxPostgres, clientOptions);
-
-    console.log("client.isReady(): ", client.isReady())
-
     client.start(function(err){
 
-        var i = 0;
         if(err){
             throw err;
         }
 
-        // TODO: ? we should be using the policy to set the value?
+        var policy = new Catbox.Policy(policyOptions, client, segment);
+        var i = 0;
+
         setTimeout(function(){
 
-            client.set(key, value, ttl, function(err){
+            var id = 'my-id';
+            var value = {
+                firstName: "paulo''qqq",
+                lastName: "vieira @ " + Date.now(),
+                age: 33
+            };
+            var ttl = 1500;
+
+            policy.set(id, value, ttl, function(err){
 
                 if(err){
                     throw err;
                 }
 
-                console.log("value was set")
+                console.log("       value was set");
             });
 
         }, 1000);
-/*
-        setTimeout(function(){
 
-            value.firstName = "ana";
-            client.set(key, value, 4*ttl, function(err){
-
-                if(err){
-                    throw err;
-                }
-
-                console.log("value was set again")
-            });
-
-        }, 3000);
-
-        setTimeout(function(){
-
-            client.drop(key, function(err){
-
-                if(err){
-                    throw err;
-                }
-
-                console.log("value was dropped")
-            });
-
-        }, 99993600);
-*/
         setInterval(function(){
 
-            client.get(key, function(err, result){
+            policy.get('my-id', function(err, value, cached, report){
 
-                i++;
                 if(err){
-                    throw err;
+                    console.log("ERROR: " + err.message);
+                    return;
                 }
 
-                console.log("i=" + i + "; result:\n", result);
+                console.log("i=" + i + "; cached:\n", cached);
                 console.log("")
+                i++
             });
 
-
         }, 245);
-
-
-        internals.policy = new Catbox.Policy(policyOptions, client, segment);
-
-
-
-/*
-        internals.policy.set('my-key', value, ttl, function(err){
-
-            if(err){
-                throw err;
-            }
-        });
-
-        setTimeout(function(){
-
-            debugger;
-            internals.policy.get('my-key', function(err, item){
-
-                if(err){
-                    throw err;
-                }
-
-                console.log(item);
-            })
-
-        }, 1);
-*/
 
     });
 
 };
 
-internals.startCache();
+startCache('catbox', 'my-segment-x2');
 
