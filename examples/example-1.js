@@ -71,5 +71,5 @@ var startCache = function (partition, segment) {
 
 };
 
-startCache('catbox', 'my-segment-x2');
+startCache('rede_convergir_dev', 'sessions');
 
