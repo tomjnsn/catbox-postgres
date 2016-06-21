@@ -52,3 +52,6 @@ The performance gain is around 15%, according to this [benchmark](
 http://michael.otacoo.com/postgresql-2/unlogged-table-performance-in-postgresql-9-1/)
 
 Default is `true`. 
+
+
+todo: setInterval with a query to delete the entries that have expired
