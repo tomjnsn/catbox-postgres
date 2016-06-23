@@ -55,3 +55,5 @@ Default is `true`.
 
 
 todo: setInterval with a query to delete the entries that have expired
+
+todo: instead of "create table if not exists", check if table exists directly inthe system tables; if not, create it; if so, make sure the columns are what we expect, and if not, abort;
