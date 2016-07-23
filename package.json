@@ -28,7 +28,7 @@
   "homepage": "https://github.com/paulovieira/catbox-postgres#readme",
   "dependencies": {
     "hoek": "^4.0.0",
-    "pg": "^4.5.5"
+    "pg": "^6.0.3"
   },
   "devDependencies": {
     "catbox": "^7.1.1",
